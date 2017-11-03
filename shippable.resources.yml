@@ -27,7 +27,6 @@ resources:
     pointer:
       # replace us-central1-a with your availability zone
       region: us-central1-a
-      clusterName: "dprk-test-cluster"
 
   - name: dprk_dockerhub
     type: integration
@@ -42,7 +41,7 @@ resources:
     version:
       pod:
         imagePullSecrets:
-          - name: ${docker_secret_name}
+          - name: ${dprk_secret_key_name}
 
   - name: dprk_lb
     type: loadBalancer
@@ -52,7 +51,7 @@ resources:
       sourceName: "dprk-loadbalancer"
       method: LoadBalancer
       # replace devops-test-cluster with your google container engine cluster name
-      clusterName: "devops-test-cluster"
+      clusterName: "dprk-test-cluster"
     version:
       ports:
         - name: testport

@@ -22,11 +22,11 @@ jobs:
       - TASK:
         - script: |
             # create the cluster on GKE
-            . $DPRK_GITREPO_PATH/gitRepo/provision_gke_cluster.sh $DPRK_CLICONFIG_POINTER_CLUSTERNAME
+            . $DPRK_GITREPO_PATH/gitRepo/provision_gke_cluster.sh $dprk_cluster_name
 
             # Delete and create the secret
-            kubectl delete secret $docker_secret_name 2>/dev/null || echo "secret does not exist"
-            kubectl create secret docker-registry $docker_secret_name --docker-username=$DPRK_DOCKERHUB_INTEGRATION_USERNAME --docker-password=$DPRK_DOCKERHUB_INTEGRATION_PASSWORD --docker-email=$DPRK_DOCKERHUB_INTEGRATION_EMAIL --docker-server=$DPRK_DOCKERHUB_INTEGRATION_URL
+            kubectl delete secret $dprk_secret_key_name 2>/dev/null || echo "secret does not exist"
+            kubectl create secret docker-registry $dprk_secret_key_name --docker-username=$DPRK_DOCKERHUB_INTEGRATION_USERNAME --docker-password=$DPRK_DOCKERHUB_INTEGRATION_PASSWORD --docker-email=$DPRK_DOCKERHUB_INTEGRATION_EMAIL --docker-server=$DPRK_DOCKERHUB_INTEGRATION_URL
 
             # replace the placeholder in the pod spec template for imagePullSecrets
             pod_spec_template=$(shipctl get_resource_meta dprk_pod_spec)/version.json
@@ -46,3 +46,4 @@ jobs:
     type: provision
     steps:
       - IN: dprk_lb
+      - IN: dprk-app-deploy
