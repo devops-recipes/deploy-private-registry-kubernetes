@@ -25,7 +25,7 @@ jobs:
     type: deploy
     method: replace
     steps:
-      - IN: create_secret
+      - IN: dprk_provision_cluster
       - IN: dprk_secret_opts
       - IN: dprk-app-def
         switch: off
