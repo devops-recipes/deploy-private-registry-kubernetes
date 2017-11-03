@@ -47,7 +47,7 @@ resources:
   - name: dprk_lb
     type: loadBalancer
     #replace with your Kubernetes integration name
-    integration: drship_kube
+    integration: drship_kube_dprk
     pointer:
       sourceName: "dprk-loadbalancer"
       method: LoadBalancer
@@ -65,7 +65,7 @@ resources:
   - name: dprk_kube_cluster
     type: cluster
     #replace with your Kubernetes integration name
-    integration: drship_kube
+    integration: drship_kube_dprk
     pointer:
       # replace dprk-test-cluster with your google container engine cluster name
       sourceName: "dprk-test-cluster"
