@@ -18,7 +18,7 @@ resources:
     pointer:
       # replace with source code location (e.g. GitHub) where you cloned this
       # sample project.
-      sourceName: devops-recipes/deploy-kubernetes-secrets
+      sourceName: devops-recipes/deploy-private-registry-kubernetes
       branch: master
 
   - name: dprk_cliConfig
