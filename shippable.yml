@@ -70,3 +70,54 @@ resources:
       sourceName: "dprk-test-cluster"
       # replace us-central1-a with your availability zone
       region: us-central1-a
+
+jobs:
+
+  - name: dprk-app-def
+    type: manifest
+    steps:
+      - IN: dprk_app_img
+      - TASK: managed
+
+  - name: dprk_provision_cluster
+    type: runSh
+    steps:
+      - IN: dprk_gitRepo
+        # manually trigger the job and not on every commit to the repository
+        switch: off
+      - IN: dprk_dockerhub
+      - IN: drship_keyvalue
+      - IN: dprk_cliConfig
+        scopes:
+          - gke
+      - IN: dprk-app-def
+      - OUT: dprk_pod_spec
+      - TASK:
+        - script: |
+            # create the cluster on GKE
+            $DPRK_GITREPO_PATH/gitRepo/provision_gke_cluster.sh $dprk_cluster_name $DPRK_CLICONFIG_POINTER_REGION
+
+            # Delete and create the secret
+            echo "Docker hub url "$DPRK_DOCKERHUB_INTEGRATION_URL
+            kubectl delete secret $dprk_secret_key_name 2>/dev/null || echo "secret does not exist"
+            kubectl create secret docker-registry $dprk_secret_key_name --docker-username='$DPRK_DOCKERHUB_INTEGRATION_USERNAME' --docker-password='$DPRK_DOCKERHUB_INTEGRATION_PASSWORD' --docker-email='$DPRK_DOCKERHUB_INTEGRATION_EMAIL' --docker-server='$DPRK_DOCKERHUB_INTEGRATION_URL'
+
+            # replace the placeholder in the pod spec template for imagePullSecrets
+            pod_spec_template=$(shipctl get_resource_meta dprk_pod_spec)/version.json
+            shipctl replace $pod_spec_template
+
+  - name: dprk-app-deploy
+    type: deploy
+    method: replace
+    steps:
+      - IN: dprk_provision_cluster
+      - IN: dprk_pod_spec
+      - IN: dprk-app-def
+        switch: off
+      - IN: dprk_kube_cluster
+
+  - name: dprk-provision-lb
+    type: provision
+    steps:
+      - IN: dprk_lb
+      - IN: dprk-app-deploy
