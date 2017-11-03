@@ -14,7 +14,7 @@ resources:
   - name: dprk_gitRepo
     type: gitRepo
     # replace dr_github with your GitHub integration name
-    integration: dr_github
+    integration: drship_github
     pointer:
       # replace with source code location (e.g. GitHub) where you cloned this
       # sample project.
