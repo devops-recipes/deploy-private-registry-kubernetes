@@ -18,8 +18,9 @@ jobs:
       - TASK:
         - script: |
             img_secret_version_file=$(shipctl get_resource_meta dprk_secret_opts)/version.json
-            shipctl replace img_secret_version_file
-            cat img_secret_version_file
+            echo $img_secret_version_file
+            shipctl replace $img_secret_version_file
+            cat $img_secret_version_file
 
   - name: dprk-app-deploy
     type: deploy
