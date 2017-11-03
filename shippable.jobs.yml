@@ -1,44 +1,37 @@
 jobs:
 
-  - name: dks-app-def
+  - name: dprk-app-def
     type: manifest
     steps:
-      - IN: dks_app_img
+      - IN: dprk_app_img
       - TASK: managed
 
-  - name: create_secret
+  - name: dprk_provision_cluster
     type: runSh
     steps:
-      - IN: dks_gitRepo
+      - IN: dprk_gitRepo
         # manually trigger the job and not on every commit to the repository
         switch: off
-      - IN: dks_kube_cliConfig
-      - IN: dks-app-def
-      - IN: dks_secrets
+      - IN: dprk-app-def
+      - IN: dprk_secret
+      - OUT: dprk_secret_opts
       - TASK:
         - script: |
-            pushd $(shipctl get_resource_state "dks_gitRepo")/kubernetes-secrets
-              # Replace placeholders in the secret yml with environment variables
-              # injected by the key-value pair integration
-              shipctl replace ./create-secret.yml
-              cat ./create-secret.yml
+            img_secret_version_file=$(shipctl get_resource_meta dprk_secret_opts)/version.json
+            shipctl replace img_secret_version_file
+            cat img_secret_version_file
 
-              # Delete and create the secret
-              kubectl delete secret auth-token-secret 2>/dev/null || echo "secret does not exist"
-              kubectl create -f ./create-secret.yml
-            popd
-
-  - name: dks-app-deploy
+  - name: dprk-app-deploy
     type: deploy
     method: replace
     steps:
       - IN: create_secret
-      - IN: dks_secret_opts
-      - IN: dks-app-def
+      - IN: dprk_secret_opts
+      - IN: dprk-app-def
         switch: off
-      - IN: dks_kube_cluster
+      - IN: dprk_kube_cluster
 
-  - name: dks-provision-lb
+  - name: dprk-provision-lb
     type: provision
     steps:
-      - IN: dks_lb
+      - IN: dprk_lb
