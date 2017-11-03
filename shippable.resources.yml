@@ -67,7 +67,7 @@ resources:
     #replace with your Kubernetes integration name
     integration: drship_kube
     pointer:
-      # replace devops-test-cluster with your google container engine cluster name
-      sourceName: "devops-test-cluster"
+      # replace dprk-test-cluster with your google container engine cluster name
+      sourceName: "dprk-test-cluster"
       # replace us-central1-a with your availability zone
       region: us-central1-a
