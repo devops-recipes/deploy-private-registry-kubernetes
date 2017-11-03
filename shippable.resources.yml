@@ -21,19 +21,23 @@ resources:
       sourceName: devops-recipes/deploy-kubernetes-secrets
       branch: master
 
-  - name: dprk_kube_cliConfig
+  - name: dprk_cliConfig
     type: cliConfig
-    #replace with your Kubernetes integration name
-    integration: drship_kube
+    integration: drship_gcloud
     pointer:
       # replace us-central1-a with your availability zone
       region: us-central1-a
+      clusterName: "dprk-test-cluster"
 
-  - name: dprk_secret
+  - name: dprk_dockerhub
+    type: integration
+    integration: drship_dockerhub
+
+  - name: dprk_docker_registry_secret
     type: integration
     integration: drship_docker_registry_secret
 
-  - name: dprk_secret_opts
+  - name: dprk_pod_spec_template
     type: dockerOptions
     version:
       pod:

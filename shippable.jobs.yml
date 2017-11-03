@@ -12,15 +12,24 @@ jobs:
       - IN: dprk_gitRepo
         # manually trigger the job and not on every commit to the repository
         switch: off
+      - IN: dprk_docker_hub_account_info
+      - IN: dprk_docker_registry_secret
+      - IN: dprk_cliConfig
+        scopes:
+          - gke
       - IN: dprk-app-def
-      - IN: dprk_secret
-      - OUT: dprk_secret_opts
+      - OUT: dprk_pod_spec_template
       - TASK:
         - script: |
-            img_secret_version_file=$(shipctl get_resource_meta dprk_secret_opts)/version.json
-            echo $img_secret_version_file
-            shipctl replace $img_secret_version_file
-            cat $img_secret_version_file
+            # create the cluster on GKE
+            . $DPRK_GITREPO_PATH/gitRepo/provision_gke_cluster.sh $DPRK_CLICONFIG_POINTER_CLUSTERNAME
+
+            # create the docker registry secret
+            kubectl create secret docker-registry $docker_secret_name --docker-username=$DPRK_DOCKERHUB_INTEGRATION_USERNAME --docker-password=$DPRK_DOCKERHUB_INTEGRATION_PASSWORD --docker-email=$DPRK_DOCKERHUB_INTEGRATION_EMAIL --docker-server=$DPRK_DOCKERHUB_INTEGRATION_URL
+
+            # replace the placeholder in the pod spec template for imagePullSecrets
+            pod_spec_template=$(shipctl get_resource_meta dprk_pod_spec_template)/version.json
+            shipctl replace $pod_spec_template
 
   - name: dprk-app-deploy
     type: deploy
