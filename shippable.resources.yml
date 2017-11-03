@@ -36,8 +36,9 @@ resources:
   - name: dprk_secret_opts
     type: dockerOptions
     version:
-       imagePullSecrets:
-         - name: ${docker_secret_name}
+      pod:
+        imagePullSecrets:
+          - name: ${docker_secret_name}
 
   - name: dprk_lb
     type: loadBalancer
