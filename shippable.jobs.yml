@@ -13,7 +13,7 @@ jobs:
         # manually trigger the job and not on every commit to the repository
         switch: off
       - IN: dprk_dockerhub
-      - IN: dprk_docker_registry_secret
+      - IN: drship_keyvalue
       - IN: dprk_cliConfig
         scopes:
           - gke

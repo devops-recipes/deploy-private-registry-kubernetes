@@ -32,9 +32,9 @@ resources:
     type: integration
     integration: drship_dockerhub
 
-  - name: dprk_docker_registry_secret
+  - name: drship_keyvalue
     type: integration
-    integration: drship_docker_registry_secret
+    integration: drship_keyvalue
 
   - name: dprk_pod_spec
     type: dockerOptions
