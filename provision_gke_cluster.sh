@@ -1,7 +1,6 @@
 # This script provisions a GKE cluster
 #! /bin/bash -e
 response=$(gcloud container clusters describe $1 --zone $2 || echo "ClusterNotFound")
-echo "cluster query response: "$response
 
 if [[ $response = "ClusterNotFound" ]]
 then
