@@ -37,7 +37,7 @@ resources:
     type: integration
     integration: drship_docker_registry_secret
 
-  - name: dprk_pod_spec_template
+  - name: dprk_pod_spec
     type: dockerOptions
     version:
       pod:
