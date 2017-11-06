@@ -11,6 +11,20 @@ resources:
     seed:
       versionName: "latest"
 
+  - name: dprk_kube_params
+    type: params
+    version:
+      params:
+        DPRK_APP_LABEL: "dprk-kube-app"
+        DPRK_CLUSTER_NAME: "dprk-test-cluster"
+        DPRK_CLUSTER_NUM_NODES: 1
+        DPRK_CLUSTER_MACHINE_TYPE: "n1-standard-1"
+        DPRK_SECRET_KEY_NAME: "dprk-registry-key"
+
+  - name: dprk_dockerhub
+    type: integration
+    integration: drship_dockerhub
+
   - name: dprk_gitRepo
     type: gitRepo
     # replace dr_github with your GitHub integration name
@@ -27,17 +41,3 @@ resources:
     pointer:
       # replace us-central1-a with your availability zone
       region: us-central1-a
-      
-  - name: dprk_dockerhub
-    type: integration
-    integration: drship_dockerhub
-
-  - name: dprk_kube_params
-    type: params
-    version:
-      params:
-        DPRK_APP_LABEL: "dprk-kube-app"
-        DPRK_CLUSTER_NAME: "dprk-test-cluster"
-        DPRK_CLUSTER_NUM_NODES: 1
-        DPRK_CLUSTER_MACHINE_TYPE: "n1-standard-1"
-        DPRK_SECRET_KEY_NAME: "dprk-registry-key"
