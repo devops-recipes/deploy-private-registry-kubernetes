@@ -5,8 +5,8 @@ resources:
     # replace drship_dockerhub with your docker hub integration name
     integration: drship_dockerhub
     pointer:
-      # replace devopsrecipes/dprk_node_sample_app with your docker registry
-      # repository
+      # replace devopsrecipes/deploy-kube-private-registry-node-app with your
+      # docker repository image name
       sourceName: devopsrecipes/deploy-kube-private-registry-node-app
     seed:
       versionName: "latest"
@@ -23,20 +23,22 @@ resources:
 
   - name: dprk_dockerhub
     type: integration
+    # replace drship_dockerhub with your Docker hub integration name
     integration: drship_dockerhub
 
   - name: dprk_gitRepo
     type: gitRepo
-    # replace dr_github with your GitHub integration name
+    # replace drship_github with your GitHub integration name
     integration: drship_github
     pointer:
-      # replace with source code location (e.g. GitHub) where you cloned this
-      # sample project.
+      # replace devops-recipes/deploy-private-registry-kubernetes with your
+      # source code location (e.g. GitHub) where you cloned this sample project.
       sourceName: devops-recipes/deploy-private-registry-kubernetes
       branch: master
 
   - name: dprk_cliConfig
     type: cliConfig
+    # replace drship_gcloud with your Google cloud integration name
     integration: drship_gcloud
     pointer:
       # replace us-central1-a with your availability zone
