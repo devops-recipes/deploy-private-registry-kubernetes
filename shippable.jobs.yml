@@ -30,9 +30,11 @@ jobs:
               shipctl replace ./deploy_spec.yml
               cat ./deploy_spec.yml
 
-              # Create the service and deployment object in the cluster
+              # Delete the previous service and deployment objects in the cluster
               kubectl delete deployment $DPRK_APP_LABEL 2>/dev/null || echo ""
               kubectl delete service $DPRK_APP_LABEL 2>/dev/null || echo ""
+
+              # Create the service and deployment objects in the cluster
               kubectl create -o json -f ./deploy_spec.yml > kube_output.json
               cat kube_output.json
             popd
