@@ -1,0 +1,43 @@
+resources:
+
+  - name: dprk_app_img
+    type: image
+    # replace drship_dockerhub with your docker hub integration name
+    integration: drship_dockerhub
+    pointer:
+      # replace devopsrecipes/dprk_node_sample_app with your docker registry
+      # repository
+      sourceName: devopsrecipes/deploy-kube-private-registry-node-app
+    seed:
+      versionName: "latest"
+
+  - name: dprk_gitRepo
+    type: gitRepo
+    # replace dr_github with your GitHub integration name
+    integration: drship_github
+    pointer:
+      # replace with source code location (e.g. GitHub) where you cloned this
+      # sample project.
+      sourceName: devops-recipes/deploy-private-registry-kubernetes
+      branch: master
+
+  - name: dprk_cliConfig
+    type: cliConfig
+    integration: drship_gcloud
+    pointer:
+      # replace us-central1-a with your availability zone
+      region: us-central1-a
+      
+  - name: dprk_dockerhub
+    type: integration
+    integration: drship_dockerhub
+
+  - name: dprk_kube_params
+    type: params
+    version:
+      params:
+        DPRK_APP_LABEL: "dprk-kube-app"
+        DPRK_CLUSTER_NAME: "dprk-test-cluster"
+        DPRK_CLUSTER_NUM_NODES: 1
+        DPRK_CLUSTER_MACHINE_TYPE: "n1-standard-1"
+        DPRK_SECRET_KEY_NAME: "dprk-registry-key"

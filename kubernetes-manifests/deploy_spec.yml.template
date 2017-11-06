@@ -1,0 +1,31 @@
+apiVersion: apps/v1beta1
+kind: Deployment
+metadata:
+  name: ${DPRK_APP_LABEL}
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: ${DPRK_APP_LABEL}
+    spec:
+      containers:
+        - name: ${DPRK_APP_LABEL}
+          image: ${DPRK_APP_IMG_SOURCENAME}:${DPRK_APP_IMG_VERSIONNAME}
+          ports:
+          - containerPort: 80
+      imagePullSecrets:
+        - name: ${DPRK_SECRET_KEY_NAME}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: ${DPRK_APP_LABEL}
+spec:
+  type: LoadBalancer
+  ports:
+  - port: 80
+  selector:
+    app: ${DPRK_APP_LABEL}
+
+---

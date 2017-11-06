@@ -1,0 +1,45 @@
+jobs:
+
+  - name: dprk_pod_def
+    type: manifest
+    steps:
+      - IN: dprk_app_img
+      - TASK: managed
+
+  - name: dprk_provision_cluster
+    type: runSh
+    steps:
+      - IN: dprk_gitRepo
+        # manually trigger the job and not on every commit to the repository
+        switch: off
+      - IN: dprk_dockerhub
+      - IN: dprk_kube_params
+      - IN: dprk_app_img
+        switch: off
+      - IN: dprk_cliConfig
+        scopes:
+          - gke
+      - IN: dprk_pod_def
+      - TASK:
+        - script: |
+            # create the cluster on GKE
+            pushd $(shipctl get_resource_state "dprk_gitRepo")/kubernetes-manifests
+              # create the kubernetes cluster
+              $DPRK_GITREPO_PATH/gitRepo/provision_gke_cluster.sh $DPRK_CLUSTER_NAME $DPRK_CLUSTER_NUM_NODES $DPRK_CLUSTER_MACHINE_TYPE $DPRK_CLICONFIG_POINTER_REGION
+
+              # Delete and create the secret
+              gcloud container clusters get-credentials $DPRK_CLUSTER_NAME --zone $DPRK_CLICONFIG_POINTER_REGION
+              kubectl delete secret $DPRK_SECRET_KEY_NAME 2>/dev/null || echo "secret does not exist"
+              kubectl create secret docker-registry $DPRK_SECRET_KEY_NAME --docker-username="$DPRK_DOCKERHUB_INTEGRATION_USERNAME" --docker-password="$DPRK_DOCKERHUB_INTEGRATION_PASSWORD" --docker-email="$DPRK_DOCKERHUB_INTEGRATION_EMAIL" --docker-server="$DPRK_DOCKERHUB_INTEGRATION_URL"/
+
+              # replace the placeholder values in the pod spec template for the docker image name, loadbalancer label and secret key name
+              cp ./deploy_spec.yml.template ./deploy_spec.yml
+              shipctl replace ./deploy_spec.yml
+              cat ./deploy_spec.yml
+
+              # Create the service and deployment object in the cluster
+              kubectl delete deployment $DPRK_APP_LABEL 2>/dev/null || echo ""
+              kubectl delete service $DPRK_APP_LABEL 2>/dev/null || echo ""
+              kubectl create -o json -f ./deploy_spec.yml > kube_output.json
+              cat kube_output.json
+            popd
