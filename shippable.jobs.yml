@@ -1,11 +1,5 @@
 jobs:
 
-  - name: dprk_pod_def
-    type: manifest
-    steps:
-      - IN: dprk_app_img
-      - TASK: managed
-
   - name: dprk_provision_cluster
     type: runSh
     steps:
@@ -19,7 +13,6 @@ jobs:
       - IN: dprk_cliConfig
         scopes:
           - gke
-      - IN: dprk_pod_def
       - TASK:
         - script: |
             # create the cluster on GKE
