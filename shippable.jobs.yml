@@ -30,10 +30,10 @@ jobs:
             kubectl delete secret $DPRK_SECRET_KEY_NAME 2>/dev/null || echo "secret does not exist"
             kubectl create secret docker-registry $DPRK_SECRET_KEY_NAME --docker-username="$DPRK_DOCKERHUB_INTEGRATION_USERNAME" --docker-password="$DPRK_DOCKERHUB_INTEGRATION_PASSWORD" --docker-email="$DPRK_DOCKERHUB_INTEGRATION_EMAIL" --docker-server="$DPRK_DOCKERHUB_INTEGRATION_URL"/
 
-    - name: dprk-pod-deploy
-      type: deploy
-      steps:
-        - IN: dprk_imagepull_secrets
-        - IN: dprk_cluster
-        - IN: dprk-pod-def
-        - IN: dprk_provision_cluster
+  - name: dprk-pod-deploy
+    type: deploy
+    steps:
+      - IN: dprk_imagepull_secrets
+      - IN: dprk_cluster
+      - IN: dprk-pod-def
+      - IN: dprk_provision_cluster
