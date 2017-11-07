@@ -14,8 +14,6 @@ jobs:
         switch: off
       - IN: dprk_dockerhub
       - IN: dprk_kube_params
-      - IN: dprk_app_img
-        switch: off
       - IN: dprk_cliConfig
         scopes:
           - gke
@@ -37,7 +35,6 @@ jobs:
       - IN: dprk_cluster
       - IN: dprk-pod-def
       - IN: dprk_provision_cluster
-
 
   - name: dprk_provision_lb
     type: provision

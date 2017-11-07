@@ -53,14 +53,17 @@ resources:
 
   - name: dprk_cluster
     type: cluster
-    integration: drship_gcloud   # friendly name of the integration you created
+    # replace drship_gcloud with your google cloud integration name
+    integration: drship_gcloud
     pointer:
-      sourceName: "dprk-test-cluster" # name of the actual cluster in Kubernetes
+      # replace dprk-test-cluster with your google container engine cluster name
+      sourceName: "dprk-test-cluster"
+      # replace us-central1-a with your availability zone
       region: us-central1-a
 
   - name: dprk_lb
     type: loadBalancer
-    #replace with your google cloud integration name
+    # replace drship_gcloud with your google cloud integration name
     integration: drship_gcloud
     pointer:
       sourceName: "dprk-loadbalancer"
