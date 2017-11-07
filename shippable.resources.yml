@@ -11,6 +11,13 @@ resources:
     seed:
       versionName: "latest"
 
+  - name: dprk_imagepull_secrets
+    type: dockerOptions
+    version:
+      pod:
+        imagePullSecrets:
+          - name: dprk-registry-key
+
   - name: dprk_kube_params
     type: params
     version:
@@ -43,3 +50,9 @@ resources:
     pointer:
       # replace us-central1-a with your availability zone
       region: us-central1-a
+
+  - name: dprk_cluster
+    type: cluster
+    integration: drship_gcloud   # friendly name of the integration you created
+    pointer:
+      sourceName: "dprk-test-cluster" # name of the actual cluster in Kubernetes
