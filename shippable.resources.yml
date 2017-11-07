@@ -56,3 +56,22 @@ resources:
     integration: drship_gcloud   # friendly name of the integration you created
     pointer:
       sourceName: "dprk-test-cluster" # name of the actual cluster in Kubernetes
+
+  - name: dprk_lb
+    type: loadBalancer
+    #replace with your google cloud integration name
+    integration: drship_gcloud
+    pointer:
+      sourceName: "dprk-loadbalancer"
+      method: LoadBalancer
+      # replace dprk-test-cluster with your google container engine cluster name
+      clusterName: "dprk-test-cluster"
+      region: us-central1-a
+    version:
+      ports:
+        - name: testport
+          protocol: TCP
+          port: 80
+      selector:
+        name: "dprk-pod-def"
+        jobName: "dprk-pod-deploy"

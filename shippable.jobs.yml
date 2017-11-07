@@ -37,3 +37,10 @@ jobs:
       - IN: dprk_cluster
       - IN: dprk-pod-def
       - IN: dprk_provision_cluster
+
+
+  - name: dks-provision-lb
+    type: provision
+    steps:
+      - IN: dprk_lb
+      - IN: dprk-pod-deploy
