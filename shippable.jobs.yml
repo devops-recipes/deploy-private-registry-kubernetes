@@ -39,7 +39,7 @@ jobs:
       - IN: dprk_provision_cluster
 
 
-  - name: dks-provision-lb
+  - name: dprk_provision_lb
     type: provision
     steps:
       - IN: dprk_lb
