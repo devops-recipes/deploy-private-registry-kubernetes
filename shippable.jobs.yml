@@ -9,9 +9,6 @@ jobs:
   - name: dprk_provision_cluster
     type: runSh
     steps:
-      - IN: dprk_gitRepo
-        # manually trigger the job and not on every commit to the repository
-        switch: off
       - IN: dprk_dockerhub
       - IN: dprk_kube_params
       - IN: dprk_cliConfig
@@ -20,8 +17,16 @@ jobs:
       - IN: dprk-pod-def
       - TASK:
         - script: |
-            # create the cluster on GKE
-            $DPRK_GITREPO_PATH/gitRepo/provision_gke_cluster.sh $DPRK_CLUSTER_NAME $DPRK_CLUSTER_NUM_NODES $DPRK_CLUSTER_MACHINE_TYPE $DPRK_CLICONFIG_POINTER_REGION
+            # check if the cluster already exists on GKE
+            response=$(gcloud container clusters describe $DPRK_CLUSTER_NAME --zone $DPRK_CLICONFIG_POINTER_REGION || echo "ClusterNotFound")
+
+            if [[ $response = "ClusterNotFound" ]]
+            then
+               echo "cluster not found, creating cluster"
+               gcloud container clusters create $DPRK_CLUSTER_NAME --num-nodes=$DPRK_CLUSTER_NUM_NODES --machine-type=$DPRK_CLUSTER_MACHINE_TYPE
+            else
+               echo "cluster already exists, skipping creating cluster"
+            fi
 
             # Delete and create the secret
             gcloud container clusters get-credentials $DPRK_CLUSTER_NAME --zone $DPRK_CLICONFIG_POINTER_REGION

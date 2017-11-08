@@ -33,16 +33,6 @@ resources:
     # replace drship_dockerhub with your Docker hub integration name
     integration: drship_dockerhub
 
-  - name: dprk_gitRepo
-    type: gitRepo
-    # replace drship_github with your GitHub integration name
-    integration: drship_github
-    pointer:
-      # replace devops-recipes/deploy-private-registry-kubernetes with your
-      # source code location (e.g. GitHub) where you cloned this sample project.
-      sourceName: devops-recipes/deploy-private-registry-kubernetes
-      branch: master
-
   - name: dprk_cliConfig
     type: cliConfig
     # replace drship_gcloud with your Google cloud integration name
