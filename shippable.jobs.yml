@@ -6,7 +6,7 @@ jobs:
       - IN: dprk_app_img
       - TASK: managed
 
-  - name: dprk_provision_cluster
+  - name: provision_cluster_and_secret
     type: runSh
     steps:
       - IN: dprk_dockerhub
