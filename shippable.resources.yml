@@ -18,7 +18,7 @@ resources:
         imagePullSecrets:
           - name: dprk-registry-key
 
-  - name: dprk_kube_params
+  - name: dprk_params
     type: params
     version:
       params:

@@ -10,7 +10,7 @@ jobs:
     type: runSh
     steps:
       - IN: dprk_dockerhub
-      - IN: dprk_kube_params
+      - IN: dprk_params
       - IN: dprk_cliConfig
         scopes:
           - gke
