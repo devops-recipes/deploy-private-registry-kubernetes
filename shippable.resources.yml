@@ -11,13 +11,6 @@ resources:
     seed:
       versionName: "latest"
 
-  - name: dprk_pod_secret
-    type: dockerOptions
-    version:
-      pod:
-        imagePullSecrets:
-          - name: dprk-registry-key
-
   - name: dprk_params
     type: params
     version:
@@ -40,6 +33,13 @@ resources:
     pointer:
       # replace us-central1-a with your availability zone
       region: us-central1-a
+
+  - name: dprk_pod_secret
+    type: dockerOptions
+    version:
+      pod:
+        imagePullSecrets:
+          - name: dprk-registry-key
 
   - name: dprk_cluster
     type: cluster
