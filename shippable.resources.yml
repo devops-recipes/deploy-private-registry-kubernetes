@@ -11,7 +11,7 @@ resources:
     seed:
       versionName: "latest"
 
-  - name: dprk_imagepull_secrets
+  - name: dprk_pod_secret
     type: dockerOptions
     version:
       pod:

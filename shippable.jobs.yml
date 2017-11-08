@@ -9,8 +9,8 @@ jobs:
   - name: dprk_provision_cluster_and_secret
     type: runSh
     steps:
-      - IN: dprk_dockerhub
       - IN: dprk_params
+      - IN: dprk_dockerhub
       - IN: dprk_cliConfig
         scopes:
           - gke
@@ -36,7 +36,7 @@ jobs:
   - name: dprk-pod-deploy
     type: deploy
     steps:
-      - IN: dprk_imagepull_secrets
+      - IN: dprk_pod_secret
       - IN: dprk_cluster
       - IN: dprk-pod-def
       - IN: dprk_provision_cluster
