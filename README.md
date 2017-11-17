@@ -1,1 +1,1 @@
-# volume-mount-kubernetes
+# deploy-private-registry-kubernetes
